@@ -28,8 +28,11 @@ def main():
     # db_sess.commit()
     db_sess = db_session.create_session()
     jobs = db_sess.query(Jobs).all()
-    print(jobs)
-    return render_template('index.html', jobs=jobs)
+    query = db_sess.query(User)
+    crew_members = []
+    for user in db_sess.query(User).all():
+        crew_members.append((user.surname, user.name))
+    return render_template('index.html', jobs=jobs, crew=crew_members)
 
 
 if __name__ == '__main__':
