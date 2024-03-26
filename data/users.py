@@ -1,6 +1,7 @@
 import sqlalchemy
 from data.db_session import SqlAlchemyBase
 from sqlalchemy import orm
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(SqlAlchemyBase):
@@ -14,6 +15,12 @@ class User(SqlAlchemyBase):
         self.speciality = args[4]
         self.address = args[5]
         self.email = args[6]
+
+    def set_password(self, password):
+        self.hashed_password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.hashed_password, password)
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
