@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for, render_template
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
+@app.route('/')
 def main():
     db_session.global_init("db/blogs.db")
 
@@ -18,14 +19,18 @@ def main():
     # db_sess.bulk_save_objects(objects)
     # db_sess.commit()
 
+    # db_sess = db_session.create_session()
+    # user = db_sess.query(User).filter(User.id == 1).first()
+    # jobs = Jobs(team_leader=user.id, job='deployment of residential modules 1 and 2', work_size=15,
+    #             collaborators='2, 3',
+    #             is_finished=False)
+    # db_sess.add(jobs)
+    # db_sess.commit()
     db_sess = db_session.create_session()
-    user = db_sess.query(User).filter(User.id == 1).first()
-    jobs = Jobs(team_leader=user.id, job='deployment of residential modules 1 and 2', work_size=15, collaborators='2, 3',
-                is_finished=False)
-    db_sess.add(jobs)
-    db_sess.commit()
-    app.run()
+    jobs = db_sess.query(Jobs).all()
+    print(jobs)
+    return render_template('index.html', jobs=jobs)
 
 
 if __name__ == '__main__':
-    main()
+    app.run(port=8080, host='127.0.0.1')
