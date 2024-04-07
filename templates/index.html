@@ -5,7 +5,7 @@
             <h3>Action # {{ loop.index}}</h3>
             <div class="table-responsive-sm">
       <table class="table">
-      <thead>
+      <thead class="table-secondary">
         <tr>
           <th scope="col">Title of activity</th>
           <th scope="col">Team leader</th>
@@ -13,16 +13,16 @@
           <th scope="col">List of collaborators</th>
           <th scope="col">Is finished</th>
         </tr>
-      <tbody>
+      <tbody class="table-info">
         <tr>
           <td>{{j.job}}</td>
           <td>{{' '.join(crew[j.team_leader])}}</td>
           <td>{{j.work_size}}</td>
           <td>{{j.collaborators}}</td>
             {% if j.is_finished%}
-                <td>finished</td>
+                <td class="table-success">finished</td>
             {% else %}
-                <td>is not <br>finished</td>
+                <td class="table-danger">is not <br>finished</td>
             {% endif %}
         </tr>
       </tbody>
